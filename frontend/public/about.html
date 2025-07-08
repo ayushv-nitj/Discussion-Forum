@@ -67,7 +67,148 @@
       <li>GitHub: <a href="https://github.com/ayushv-nitj" target="_blank">ayushv-nitj</a></li>
       <li>LinkedIn: <a href="https://www.linkedin.com/in/ayush-verma-jsr25/" target="_blank">ayush-verma-jsr25</a></li>
     </ul>
-  </div>
 
+    <button id="instructions-btn" style="margin: 1rem 0; background: #4b0082; color: #fff; border: none; border-radius: 5px; padding: 0.6rem 1.2rem; font-size: 1rem; cursor: pointer;">
+      📖 Read Instructions
+    </button>
+
+   
+
+
+
+    <div id="instructions" style="display: none; margin-top: 1rem;">
+      <h3><u>🧭 User Instructions: How to Use the Discussion Forum</u></h3>
+      <p>Welcome aboard! 🚀 Whether you're here to start a discussion or join one, this guide will help you get the most out of our forum. Let’s walk you through everything step by step:</p>
+      <ul>
+        <li><b>🔐 Login to Get Started</b><br>
+          <ol>
+          <li>Click the “Login to Continue” button on the homepage.</li>
+          <li>Sign in securely using your Google account.</li>
+         <li>Your profile (name and picture) will appear once logged in.</li>
+          </ol>
+        
+        <br>
+        <br>
+
+      
+        <li><b>💬 Start a New Discussion</b><br>
+          <ol>
+            <li>Use the “Start a New Discussion” section at the top.</li>
+          <li>Enter a meaningful title for your thread.</li>
+          <li>Optionally, you can add a description to give others context.</li>
+          <li>Click “Create” and your thread will appear below.</li>
+          <li>✅ Only logged-in users can create discussions.</li>
+          </ol>
+       
+
+        <br>
+        <br>
+
+        <li><b>🧵 Join Existing Threads</b><br>
+          <ol>
+            <li>Scroll through the list of discussion threads under “Discussion Threads.”</li>
+           <li>Click on any thread title to enter and view messages.</li>
+           <li>Participate by typing a message and clicking “Send.”</li>          
+          </ol>
+      
+
+          <br>
+          <br>
+          
+          <li><b>✏️ Edit or Delete Your Messages</b><br>
+          <ol>
+            <li>You can edit or delete your own messages at any time.</li>
+           <li>Click the ✏️ Edit or 🗑️ Delete button below your message.</li>
+           <li>When editing, press ✔ to save or ✖ to cancel.</li> 
+            <li>🛡 Only your own messages can be edited or deleted.</li>        
+          </ol>
+
+        <br>
+        <br>
+
+        <li><b>🧼 Manage Your Threads</b><br>
+          <ol>
+            <li>You’ll see a delete button (🗑) next to threads you created.</li>
+           <li>You can remove your thread anytime if you feel it’s no longer needed.</li>
+           <li> 🛑 You cannot delete threads started by other users.</li>                    
+          </ol>
+        <br>
+        <br>
+
+        <li><b>🌙 Switch Themes</b><br>
+          <ol>
+            <li> Click the 🌙 / ☀️ button at the top-right to toggle between dark and light mode for better viewing comfort.</li>                  
+          </ol>
+        <br>
+        <br>
+
+
+        <li><b>🌐  Explore More</b><br>
+          <ol>
+            <li> Visit the About Us section to learn about our mission.</li>
+         
+      </ol>
+      <br>
+      <br>
+      </li>
+
+
+      <p><b>🙌 Final Tips</b><br>
+        <ul><li> Be respectful and collaborative.</li><br>
+          <li> Stay on-topic in discussions.</li><br>
+          <li>Report any issues or suggestions via GitHub.</li><br>
+        </ul>
+       <br>
+        Happy discussing! 💡✨
+      </p>
+    </div>
+
+     <button id="upcoming-features-btn" style="margin: 1rem 0; background: #4b0082; color: #fff; border: none; border-radius: 5px; padding: 0.6rem 1.2rem; font-size: 1rem; cursor: pointer;">
+     🚀  Upcoming Features
+    </button>
+
+  <div id="upcoming-features" style="display: none; margin-top: 1rem;">
+    <h3><u>🚀 Upcoming Features</u></h3>
+    <p>We are constantly improving the forum! Here’s what’s coming next:</p>
+    <ul>
+      <li><b>🔔 Notifications</b> - Get notified when someone replies to your threads.</li>
+      <li><b>🔍 Search Functionality</b> - Easily find discussions by keywords.</li>
+      <li><b>📊 Analytics Dashboard</b> - View engagement stats for your threads.</li>
+      <li><b>🛡️ Enhanced Security</b> - Improved measures to protect user data.</li>
+      <li><b>🌐 Multi-language Support</b> - Access the forum in your preferred language.</li>
+    </ul>
+    <p>Stay tuned for these exciting updates!</p>
+
+  </div>
+  </div>
+  
+
+  <script>
+    const btn1 = document.getElementById('instructions-btn');
+    const instructions = document.getElementById('instructions');
+    btn1.addEventListener('click', () => {
+      if (instructions.style.display === 'none') {
+        instructions.style.display = 'block';
+        btn1.textContent = '🔽 Hide Instructions';
+      } else {
+        instructions.style.display = 'none';
+        btn1.textContent = '📖 Read Instructions';
+      }
+    });
+
+
+
+    const btn2 = document.getElementById('upcoming-features-btn');
+    const upcomingfeatures = document.getElementById('upcoming-features');
+    btn2.addEventListener('click', () => {
+      if (upcomingfeatures.style.display === 'none') {
+        upcomingfeatures.style.display = 'block';
+        btn2.textContent = ' 🚀  Upcoming Features';
+      } else {
+        upcomingfeatures.style.display = 'none';
+        btn2.textContent ='🚀  Upcoming Features' ;
+      }
+    });
+  </script>
 </body>
 </html>
