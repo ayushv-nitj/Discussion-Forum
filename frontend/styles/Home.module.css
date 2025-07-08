@@ -112,17 +112,17 @@
   margin: 1.5rem auto;
   width: 100%;
   max-width: 500px;
-  display: flex;
-  justify-content: center;
+  position: relative;
 }
 
 .searchInput {
   width: 100%;
   padding: 0.75rem 1rem;
+  padding-right: 2.8rem; /* space for the icon */
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 999px; /* pill shape */
-  outline: none;
+  border: 2px solid #ccc;
+  border-radius: 999px;
+  outline: thick double;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
@@ -130,6 +130,15 @@
 .searchInput:focus {
   border-color: #0070f3;
   box-shadow: 0 0 8px rgba(0, 112, 243, 0.2);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
 }
 
 
