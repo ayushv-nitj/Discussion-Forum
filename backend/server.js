@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -10,15 +11,16 @@ const messageRoutes = require('./routes/messageRoutes');
 
 const app = express();
 const server = http.createServer(app);
+
+// CORS setup
 const allowedOrigins = [
-  "http://localhost:3000", // development
-  "https://discussion-forum.vercel.app", // your custom domain
-  "https://discussion-forum-topaz.vercel.app", // fallback Vercel domain
+  "http://localhost:3000", // local dev
+  "https://discussion-forum.vercel.app", // live frontend
+  "https://discussion-forum-topaz.vercel.app", // Vercel fallback
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl) or from allowedOrigins
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -29,37 +31,41 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
-
-// Also update for Socket.IO
-const io = new Server(server, {
-  cors: corsOptions
-});
-
-
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors(corsOptions));         // ✅ Only use this ONCE
+app.use(express.json());            // ✅ For JSON body parsing
 
 // Routes
 app.use('/api/threads', threadRoutes);
 app.use('/api/messages', messageRoutes);
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB connected"))
+.catch(err => console.error("❌ MongoDB error:", err));
 
-// Socket.IO Logic
+// Socket.IO Setup
+const io = new Server(server, {
+  cors: corsOptions
+});
+
 io.on("connection", socket => {
-  console.log("User connected");
+  console.log("📡 A user connected");
 
   socket.on("send-message", (msg) => {
-    io.emit("receive-message", msg); // Broadcast to all clients
+    io.emit("receive-message", msg); // Broadcast to all
+  });
+
+  socket.on("disconnect", () => {
+    console.log("🔌 A user disconnected");
   });
 });
 
 // Start server
-server.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });

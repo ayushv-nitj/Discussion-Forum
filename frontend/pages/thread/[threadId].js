@@ -1,5 +1,4 @@
 import styles from '@/styles/Thread.module.css';
-
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -7,22 +6,20 @@ import io from "socket.io-client";
 import axios from "axios";
 import EmojiPicker from "emoji-picker-react";
 
-const socket = io("http://localhost:3001");
+const socket = io(process.env.NEXT_PUBLIC_API_BASE_URL); // ✅ dynamic socket base URL
 
 export default function ThreadPage() {
   const router = useRouter();
   const { threadId } = router.query;
   const { data: session } = useSession();
   const [darkMode, setDarkMode] = useState(false);
- // <-- Dark mode state
-
-
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
   const [threadTitle, setThreadTitle] = useState("");
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const startEdit = (msg) => {
     setEditingId(msg._id);
@@ -35,66 +32,85 @@ export default function ThreadPage() {
   };
 
   const saveEdit = async (id) => {
-    const res = await axios.put(`http://localhost:3001/api/messages/${id}`, {
-      content: editText,
-    });
-    setMessages((prev) =>
-      prev.map((msg) => (msg._id === id ? { ...msg, content: res.data.content } : msg))
-    );
-    cancelEdit();
+    try {
+      const res = await axios.put(`${baseURL}/api/messages/${id}`, {
+        content: editText,
+      });
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg._id === id ? { ...msg, content: res.data.content } : msg
+        )
+      );
+      cancelEdit();
+    } catch (err) {
+      console.error("Edit failed:", err);
+    }
   };
 
   const deleteMessage = async (id) => {
-    await axios.delete(`http://localhost:3001/api/messages/${id}`);
-    setMessages((prev) => prev.filter((msg) => msg._id !== id));
+    try {
+      await axios.delete(`${baseURL}/api/messages/${id}`);
+      setMessages((prev) => prev.filter((msg) => msg._id !== id));
+    } catch (err) {
+      console.error("Delete failed:", err);
+    }
   };
 
   useEffect(() => {
     if (threadId) {
-      axios.get(`http://localhost:3001/api/messages/${threadId}`).then((res) => setMessages(res.data));
-      axios.get(`http://localhost:3001/api/threads/${threadId}`).then((res) => setThreadTitle(res.data.title));
+      axios.get(`${baseURL}/api/messages/${threadId}`).then((res) => setMessages(res.data));
+      axios.get(`${baseURL}/api/threads/${threadId}`).then((res) => setThreadTitle(res.data.title));
     }
   }, [threadId]);
 
   useEffect(() => {
-    socket.on("receive-message", (msg) => {
+    const handleReceive = (msg) => {
       if (msg.threadId === threadId) {
         setMessages((prev) => [...prev, msg]);
       }
-    });
+    };
+
+    socket.on("receive-message", handleReceive);
+
+    return () => {
+      socket.off("receive-message", handleReceive); // ✅ Prevent multiple listeners
+    };
   }, [threadId]);
 
   const sendMessage = async () => {
+    if (!input.trim()) return;
+
     const msg = {
       threadId,
       user: {
-        id: session.user.id,
-        name: session.user.name,
-        image: session.user.image,
+        id: session?.user?.id,
+        name: session?.user?.name,
+        image: session?.user?.image,
       },
       content: input,
     };
-    await axios.post("http://localhost:3001/api/messages", msg);
-    socket.emit("send-message", msg);
-    setInput("");
+
+    try {
+      await axios.post(`${baseURL}/api/messages`, msg);
+      socket.emit("send-message", msg);
+      setInput("");
+    } catch (err) {
+      console.error("Send failed:", err);
+    }
   };
 
   if (!session) return <p className={styles.loadingText}>Loading...</p>;
 
   return (
- <div className={`${styles.threadContainer} ${darkMode ? styles.dark : ''}`}>      {/* Navbar */}
- <button
-  onClick={() => setDarkMode(!darkMode)}
-  className={styles.backButton}
->
-  {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
-</button>
+    <div className={`${styles.threadContainer} ${darkMode ? styles.dark : ''}`}>
+      {/* Navbar */}
+      <button onClick={() => setDarkMode(!darkMode)} className={styles.backButton}>
+        {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
+      </button>
 
       <div className={styles.navbar}>
-        <h2 className={styles.threadHeading}> Thread: {threadTitle}</h2>
-        <button
-          onClick={() => router.push("/")}
-          className={styles.backButton}>
+        <h2 className={styles.threadHeading}>Thread: {threadTitle}</h2>
+        <button onClick={() => router.push("/")} className={styles.backButton}>
           ⬅ Back to Dashboard
         </button>
       </div>
@@ -104,13 +120,17 @@ export default function ThreadPage() {
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`${styles.message} ${msg.user.id === session.user.id ? styles.ownMessage : styles.otherMessage}`}
+            className={`${styles.message} ${
+              msg.user.id === session?.user?.id ? styles.ownMessage : styles.otherMessage
+            }`}
           >
             <div className={styles.messageHeader}>
-              <img src={msg.user.image} className={styles.userAvatar} />
+              <img src={msg.user.image} className={styles.userAvatar} alt="avatar" />
               <span className={styles.userName}>{msg.user.name}</span>
               <span className={styles.timestamp}>
-                {new Date(msg.timestamp).toLocaleString()}
+                {msg.timestamp
+                  ? new Date(msg.timestamp).toLocaleString()
+                  : "Just now"}
               </span>
             </div>
 
@@ -128,7 +148,7 @@ export default function ThreadPage() {
               <p>{msg.content}</p>
             )}
 
-            {msg.user.id === session.user.id && editingId !== msg._id && (
+            {msg.user.id === session?.user?.id && editingId !== msg._id && (
               <div className={styles.actionButtons}>
                 <button onClick={() => startEdit(msg)}>✏️ Edit</button>
                 <button onClick={() => deleteMessage(msg._id)}>🗑️ Delete</button>
@@ -153,7 +173,7 @@ export default function ThreadPage() {
               }}
               height={350}
               width={300}
-              lazyLoadEmojis={true}
+              lazyLoadEmojis
             />
           </div>
         )}
@@ -165,10 +185,7 @@ export default function ThreadPage() {
           onChange={(e) => setInput(e.target.value)}
         />
 
-        <button
-          className={styles.sendButton}
-          onClick={sendMessage}
-        >
+        <button className={styles.sendButton} onClick={sendMessage}>
           Send
         </button>
       </div>
@@ -176,8 +193,8 @@ export default function ThreadPage() {
       {/* Footer */}
       <footer className={styles.footer}>
         Made with <span className={styles.heart}>♥</span> by AV |
-        <a href="https://github.com/ayushv-nitj" target="_blank" rel="noopener noreferrer"> GitHub </a>|
-        <a href="https://www.linkedin.com/in/ayush-verma-jsr25/" target="_blank" rel="noopener noreferrer"> LinkedIn </a>|
+        <a href="https://github.com/ayushv-nitj" target="_blank" rel="noopener noreferrer"> GitHub </a> |
+        <a href="https://www.linkedin.com/in/ayush-verma-jsr25/" target="_blank" rel="noopener noreferrer"> LinkedIn </a> |
         <a href="https://www.instagram.com/av_alanche._/" target="_blank" rel="noopener noreferrer"> Instagram </a>
       </footer>
     </div>

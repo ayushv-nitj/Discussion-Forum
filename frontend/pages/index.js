@@ -6,45 +6,44 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 
-
 export default function Home() {
-  const { data: session} = useSession();
+  const { data: session } = useSession();
   const [threads, setThreads] = useState([]);
   const [newDescription, setNewDescription] = useState("");
-
   const [newThreadTitle, setNewThreadTitle] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedThreadId, setSelectedThreadId] = useState(null);
 
-
   const projectId = "project1";
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     if (session) {
-      axios.get(`http://localhost:3001/api/threads/${projectId}`)
-        .then(res => setThreads(res.data));
+      axios.get(`${baseURL}/api/threads/${projectId}`)
+        .then(res => setThreads(res.data))
+        .catch(err => console.error("Error fetching threads:", err));
     }
   }, [session]);
 
-
-
-  const createThread = () => {
+  const createThread = async () => {
     if (!newThreadTitle.trim()) return;
 
-      console.log("Sending description:", newDescription);
+    try {
+      const res = await axios.post(`${baseURL}/api/threads`, {
+        title: newThreadTitle,
+        projectId,
+        user: session.user,
+        description: newDescription,
+      });
 
-
-    axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/threads`, {
-      title: newThreadTitle,
-      projectId,
-      user: session.user,
-      description: newDescription, 
-    }).then(res => {
       setThreads(prev => [...prev, res.data]);
       setNewThreadTitle("");
-       setNewDescription("");
-    });
+      setNewDescription("");
+    } catch (err) {
+      console.error("Thread creation failed:", err);
+      alert("Could not create thread. Please try again.");
+    }
   };
 
   const promptDelete = (id) => {
@@ -54,14 +53,14 @@ export default function Home() {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/threads/${selectedThreadId}`, {
+      await axios.delete(`${baseURL}/api/threads/${selectedThreadId}`, {
         data: { email: session.user.email }
       });
       setThreads(prev => prev.filter(thread => thread._id !== selectedThreadId));
-   } catch (err) {
-  console.error("Delete thread failed:", err); // 👈 using the error
-  alert("You are not authorized to delete this thread.");
-}
+    } catch (err) {
+      console.error("Delete thread failed:", err);
+      alert("You are not authorized to delete this thread.");
+    }
 
     setShowConfirm(false);
     setSelectedThreadId(null);
@@ -102,16 +101,13 @@ export default function Home() {
 
       {/* Welcome User */}
       <div className={styles.userInfo}>
-       import Image from "next/image";
-
-<Image
-  src={session.user.image}
-  alt="User profile picture"
-  width={40}
-  height={40}
-  className="..."
-/>
-
+        <Image
+          src={session.user.image}
+          alt="User profile picture"
+          width={40}
+          height={40}
+          className={styles.userImage}
+        />
         <div>
           <p className={styles.welcomeText}>Welcome, {session.user.name}</p>
           <p className={styles.subText}>Start or join a project discussion below.</p>
@@ -129,17 +125,11 @@ export default function Home() {
             onChange={e => setNewThreadTitle(e.target.value)}
           />
           <input
-  placeholder="Optional thread description"
-  className={styles.threadDescriptionInput}
-  value={newDescription}
-  onChange={e => setNewDescription(e.target.value)}
-/>
-
-
-
-
-
-
+            placeholder="Optional thread description"
+            className={styles.threadDescriptionInput}
+            value={newDescription}
+            onChange={e => setNewDescription(e.target.value)}
+          />
           <button onClick={createThread} className={styles.createButton}>
             Create
           </button>
@@ -156,20 +146,20 @@ export default function Home() {
                 {t.title}
               </Link>
             </h4>
-
-        {(t.description) ? 
-        ( <p className={styles.threadDescription}>{t.description}</p>) 
-        
-        : 
-
-        ( <p className={styles.threadDescription} style={{ opacity: 0.5 }}>No description provided.</p> )}
-
-<p className={styles.threadAuthor}>
-  Started by: <span className={styles.threadName}>{t.createdBy.name}</span>
-  <span className={styles.threadTime}> • {moment(t.createdAt).fromNow()} ({moment(t.createdAt).format('LL')})</span>
-</p>
-
-          {t.createdBy.email === session.user.email && (
+            {t.description ? (
+              <p className={styles.threadDescription}>{t.description}</p>
+            ) : (
+              <p className={styles.threadDescription} style={{ opacity: 0.5 }}>
+                No description provided.
+              </p>
+            )}
+            <p className={styles.threadAuthor}>
+              Started by: <span className={styles.threadName}>{t.createdBy.name}</span>
+              <span className={styles.threadTime}>
+                • {moment(t.createdAt).fromNow()} ({moment(t.createdAt).format('LL')})
+              </span>
+            </p>
+            {t.createdBy.email === session.user.email && (
               <button
                 onClick={() => promptDelete(t._id)}
                 className={styles.deleteButton}
@@ -177,8 +167,6 @@ export default function Home() {
                 🗑 Delete
               </button>
             )}
-
-            
           </div>
         ))}
       </div>
@@ -186,8 +174,8 @@ export default function Home() {
       {/* Footer */}
       <footer className={styles.footer}>
         Made with <span className={styles.heart}>♥</span> by AV |
-        <a href="https://github.com/ayushv-nitj" target="_blank" rel="noopener noreferrer"> GitHub </a>|
-        <a href="https://www.linkedin.com/in/ayush-verma-jsr25/" target="_blank" rel="noopener noreferrer"> LinkedIn </a>|
+        <a href="https://github.com/ayushv-nitj" target="_blank" rel="noopener noreferrer"> GitHub </a> |
+        <a href="https://www.linkedin.com/in/ayush-verma-jsr25/" target="_blank" rel="noopener noreferrer"> LinkedIn </a> |
         <a href="https://www.instagram.com/av_alanche._/" target="_blank" rel="noopener noreferrer"> Instagram </a>
       </footer>
 
