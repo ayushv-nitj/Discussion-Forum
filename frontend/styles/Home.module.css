@@ -111,18 +111,18 @@
 .searchContainer {
   margin: 1.5rem auto;
   width: 100%;
-  max-width: 325px;
+  max-width: 300px;
   position: relative;
 }
 
 .searchInput {
-  width: 100%;
+  width: 80%;
   padding: 0.75rem 1rem;
   padding-right: 2.8rem; /* space for the icon */
   font-size: 1rem;
   border: 2px solid #ccc;
   border-radius: 999px;
-  outline: thick double;
+  outline: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
