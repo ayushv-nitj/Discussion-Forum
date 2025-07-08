@@ -7,7 +7,7 @@ import moment from "moment";
 
 
 export default function Home() {
-  const { data: session, status } = useSession();
+  const { data: session} = useSession();
   const [threads, setThreads] = useState([]);
   const [newDescription, setNewDescription] = useState("");
 
@@ -57,9 +57,11 @@ export default function Home() {
         data: { email: session.user.email }
       });
       setThreads(prev => prev.filter(thread => thread._id !== selectedThreadId));
-    } catch (err) {
-      alert("You are not authorized to delete this thread.");
-    }
+   } catch (err) {
+  console.error("Delete thread failed:", err); // 👈 using the error
+  alert("You are not authorized to delete this thread.");
+}
+
     setShowConfirm(false);
     setSelectedThreadId(null);
   };
@@ -99,7 +101,16 @@ export default function Home() {
 
       {/* Welcome User */}
       <div className={styles.userInfo}>
-        <img src={session.user.image} className={styles.userImage} />
+       import Image from "next/image";
+
+<Image
+  src={session.user.image}
+  alt="User profile picture"
+  width={40}
+  height={40}
+  className="..."
+/>
+
         <div>
           <p className={styles.welcomeText}>Welcome, {session.user.name}</p>
           <p className={styles.subText}>Start or join a project discussion below.</p>
