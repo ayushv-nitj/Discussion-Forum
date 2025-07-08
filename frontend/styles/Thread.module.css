@@ -1,0 +1,315 @@
+/* Thread.module.css */
+
+.threadContainer {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #11105e, #5d70fc, #060675);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.threadHeading {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.backButton {
+  background-color: #3b82f6;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: #2563eb;
+}
+
+.chatWindow {
+  background: linear-gradient(135deg, #eea0e2, #78dcf2, #91f5c5);
+  border-radius: 1rem;
+  padding: 1rem;
+  height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  max-width: 75%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+  border-left: 4px solid transparent;
+}
+
+.ownMessage {
+  align-self: flex-end;
+  background-color: #3b82f6;
+  color: white;
+  border-left-color: #2563eb;
+}
+
+.otherMessage {
+  align-self: flex-start;
+  background-color: #f3f4f6;
+  color: #111827;
+  border-left-color: #6b7280;
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.userAvatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #d1d5db;
+  margin-left: auto;
+}
+
+.editingWrapper {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.editInput {
+  flex: 1;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.saveBtn,
+.cancelBtn {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.saveBtn {
+  background-color: #10b981;
+  color: white;
+}
+
+.cancelBtn {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.actionButtons {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: rgb(3, 211, 248);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.emojiBtn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.emojiBtn:hover {
+  transform: scale(1.2);
+}
+
+.emojiPickerWrapper {
+  position: absolute;
+  bottom: 3.5rem;
+  z-index: 10;
+}
+
+.messageInput {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.messageInput:focus {
+  box-shadow: 0 0 0 2px #93c5fd;
+}
+
+.sendButton {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sendButton:hover {
+  background-color: #1e40af;
+}
+
+.loadingText {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.25rem;
+}
+
+.footerStyled {
+  margin-top: 2rem;
+  padding: 1rem;
+  text-align: center;
+  background: linear-gradient(to right, #4b6cb7, #182848);
+  color: white;
+  border-top: 2px solid #6dd5ed;
+  font-weight: 500;
+}
+
+.footerStyled a {
+  color: #ffd369;
+  margin: 0 6px;
+  text-decoration: none;
+}
+
+.footerStyled a:hover {
+  text-decoration: underline;
+}
+
+.heart {
+  color: red;
+  margin: 0 3px;
+}
+
+
+/* 🌙 Dark Mode Support */
+
+.dark .threadContainer {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.dark .navbar {
+  background: linear-gradient(135deg, #1e293b, #334155, #0f172a);
+  color: #e2e8f0;
+}
+
+.dark .chatWindow {
+  background: linear-gradient(135deg,  #1254be,#0275cd, #042d84);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+}
+
+.dark .ownMessage {
+  background-color: #0539a1;
+  color: #f9fafb;
+  border-left-color: #60a5fa;
+}
+
+.dark .otherMessage {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  border-left-color: #64748b;
+}
+
+.dark .timestamp {
+  color: #94a3b8;
+}
+
+.dark .editInput {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+.dark .saveBtn {
+  background-color: #10b981;
+  color: white;
+}
+
+.dark .cancelBtn {
+  background-color: #64748b;
+  color: white;
+}
+
+.dark .inputContainer {
+  background: #1e293b;
+}
+
+.dark .messageInput {
+  background-color: #0f172a;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+.dark .messageInput:focus {
+  box-shadow: 0 0 0 2px #60a5fa;
+}
+
+.dark .sendButton {
+  background-color: #3b82f6;
+}
+
+.dark .sendButton:hover {
+  background-color: #1e40af;
+}
+
+.dark .footerStyled {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-top: 2px solid #475569;
+}
+
+.dark .footerStyled a {
+  color: #60a5fa;
+}
+
+.dark {
+  background: #2c1995;
+  color: #fff;
+}

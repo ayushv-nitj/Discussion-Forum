@@ -1,0 +1,458 @@
+/* Home.module.css */
+
+.mainContainer {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: linear-gradient(to bottom right, #ebf8ff, #e0f2fe, #f3e8ff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.loginContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #60a5fa, #4f46e5, #9333ea);
+}
+
+.loginButton {
+  background: white;
+  color: #1e3a8a;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background: #e0f2fe;
+}
+
+.header {
+  background:  linear-gradient(135deg, #11105e, #5d70fc, #6f6ffb);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerTitle {
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+
+.aboutButton {
+  background-color: #69f4e6;
+  color: rgb(11, 11, 11);
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.aboutButton:hover {
+  background-color: #00759f;
+  color: white;
+}
+
+
+.logoutButton {
+  background-color: #fcfbfb;
+  color:black;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  
+  background-color: #d30c0c;
+  color: white;
+
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.userImage {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  border: 5px solid #3b82f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcomeText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.subText {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.threadTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 1rem;
+}
+
+.threadGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .threadGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.threadCard {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.threadCard:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.threadHeading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 0.25rem;
+}
+
+.threadLink {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.threadLink:hover {
+  color: #1e3a8a;
+}
+
+.threadAuthor {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.newThreadContainer {
+  margin-top: 2.5rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 36rem;
+}
+
+.newThreadTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 0.75rem;
+}
+
+.threadInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.deleteButton {
+  margin-top: 0.5rem;
+  background-color: #ef4444;
+  color: white;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #dc2626;
+}
+
+
+
+@media (min-width: 640px) {
+  .threadInputWrapper {
+    flex-direction: row;
+  }
+}
+
+.threadInput {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.threadInput:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.4);
+}
+
+.threadDescriptionInput {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.threadDescriptionInput :focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.4);
+}
+
+
+.createButton {
+  background-color: #10b981;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.createButton:hover {
+  background-color: #059669;
+}
+
+
+.backtodashboard 
+{
+  background: white;
+  color: #1e3a8a;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.backtodashboard :hover {
+  background-color: #dc2626;
+}
+
+.footerStyled {
+  margin-top: 2rem;
+  padding: 1rem;
+  text-align: center;
+  background: linear-gradient(to right, #4b6cb7, #182848);
+  color: white;
+  border-top: 2px solid #6dd5ed;
+  font-weight: 500;
+}
+
+.footerStyled a {
+  color: #ffd369;
+  margin: 0 6px;
+  text-decoration: none;
+}
+
+.footerStyled a:hover {
+  text-decoration: underline;
+}
+
+.heart {
+  color: red;
+  margin: 0 3px;
+}
+
+/* Your existing styles remain unchanged */
+
+/* 🌙 Dark Mode Wrapper */
+.dark {
+  background: linear-gradient(to bottom right, #1e1e2f, #121212);
+  color: #f3f4f6;
+}
+
+
+.dark .header {
+  background: linear-gradient(to right, #313174, #292982);
+}
+/* Header Title */
+
+
+/* Dark Mode Toggle */
+.darkModeToggle {
+  background: #333;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.darkModeToggle:hover {
+  background: #555;
+}
+
+/* About + Logout Buttons remain same */
+
+
+.dark .aboutButton {
+  background-color: #005f73;
+  color: #fff;
+}
+
+.dark .logoutButton {
+  background-color: #f87171;
+  color: white;
+}
+
+/* Thread Cards */
+.dark .threadCard {
+  background: #1f2937;
+  border-left-color: #60a5fa;
+}
+
+.dark .threadHeading,
+.dark .threadLink {
+  color: #93c5fd;
+}
+
+
+.dark .threadAuthor {
+  color: #cbd5e1;
+}
+
+/* Input and Thread Create Section */
+.dark .newThreadContainer
+{
+    background: #012f5e;
+}
+.dark .threadInput {
+  background: #2d3748;
+  color: rgb(29, 18, 73);
+  border-color: #4b5563;
+}
+
+.dark .createButton {
+  background-color: #059669;
+}
+
+/* Footer */
+
+
+.dark .footerStyled {
+  background: #111827;
+  color: #f3f4f6;
+  border-top: 2px solid #334155;
+}
+
+.footerStyled a {
+  color: #ffd369;
+}
+
+.dark .footerStyled a {
+  color: #60a5fa;
+}
+
+/* Additional dark mode text overrides */
+.dark .welcomeText,
+.dark .subText,
+.dark .newThreadTitle {
+  color: #e0e7ff;
+}
+
+.dark .threadTitle {
+  color: #a5b4fc;
+}
+
+.heart {
+  color: red;
+  margin: 0 3px;
+}
+
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.confirmButton {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #95a5a6;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.threadTime {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+}
+
+.threadDescription {
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 4px;
+  font-style: italic;
+}
