@@ -108,6 +108,31 @@
   color: #6b7280;
 }
 
+.searchContainer {
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 999px; /* pill shape */
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 8px rgba(0, 112, 243, 0.2);
+}
+
+
 .threadTitle {
   font-size: 1.5rem;
   font-weight: 700;

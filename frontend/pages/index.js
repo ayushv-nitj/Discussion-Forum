@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import { FaSearch } from "react-icons/fa";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -14,6 +15,8 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedThreadId, setSelectedThreadId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
 
   const projectId = "project1";
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -136,10 +139,28 @@ export default function Home() {
         </div>
       </div>
 
+
+
+<div className={styles.searchContainer}>
+  <FaSearch style={{ position: "absolute", marginLeft: "15px", marginTop: "12px", color: "#aaa" }} />
+  <input
+    type="text"
+    placeholder="Search threads by title..."
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    className={styles.searchInput}
+    style={{ paddingLeft: "2.5rem" }} // icon spacing
+  />
+</div>
+
+
       {/* Thread List */}
       <h2 className={styles.threadTitle}>Discussion Threads</h2>
       <div className={styles.threadGrid}>
-        {threads.map(t => (
+        {threads
+  .filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  .map(t => (
+
           <div key={t._id} className={styles.threadCard}>
             <h4 className={styles.threadHeading}>
               <Link href={`/thread/${t._id}`} className={styles.threadLink}>
@@ -154,7 +175,7 @@ export default function Home() {
               </p>
             )}
             <p className={styles.threadAuthor}>
-              Started by: <span className={styles.threadName}>{t.createdBy.name}</span>
+              Created by: <span className={styles.threadName}>{t.createdBy.name}</span>
               <span className={styles.threadTime}>
                 • {moment(t.createdAt).fromNow()} ({moment(t.createdAt).format('LL')})
               </span>
