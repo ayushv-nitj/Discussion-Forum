@@ -3,21 +3,26 @@
 
 A real-time chat-based discussion forum where users can create threads based on projects or topics, collaborate live with messages, and manage conversations with editing, deleting, emoji support, and more. 🚀
 
-![Banner](public/banner.png) <!-- Replace with your own banner image -->
+![Threads Dashboard](frontend/public/banner.png) <!-- Replace with your own banner image -->
 
 ---
 
 ## 📸 Demo Preview
 
-| Dashboard Threads Page | Real-Time Chat Page |
+| Desktop chat Page | Mobile Chat Page | About |
+|------------------------|---------------------|--------------------|
+| ![Threads](frontend/public/thread.png) | ![Chat](frontend/public/chat.png) | ![About](frontend/public/about1.png)
+
+## 📸 Dark Mode Preview
+| Desktop chat Page | Mobile Chat Page |
 |------------------------|---------------------|
-| ![Threads](public/thread.png) | ![Chat](public/chat.png) | <!-- Replace with your actual images -->
+| ![Threads](frontend/public/threadd.png) | ![Chat](frontend/public/chatd.png) |
 
 ---
 
 ## 🌐 Live Site
 
-👉 [https://discussion-forum.vercel.app](https://discussion-forum.vercel.app)
+👉 [https://discussion-forum-topaz.vercel.app](https://discussion-forum-topaz.vercel.app/)
 
 ---
 
@@ -125,7 +130,7 @@ npm run dev
 
 ## 🌍 Deployment Links
 
-- **Frontend (Vercel)**: [discussion-forum.vercel.app](https://discussion-forum.vercel.app)
+- **Frontend (Vercel)**: [discussion-forum-topaz.vercel.app](https://discussion-forum-topaz.vercel.app/)
 - **Backend (Render)**: Deployed from `server.js`, auto-starts with MongoDB.
 
 ---
@@ -142,7 +147,7 @@ npm run dev
 
 ## 👨‍💻 Author
 
-**Ayush Verma**  
+**Made with ❤ by Ayush**  
 🔗 [LinkedIn](https://www.linkedin.com/in/ayush-verma-jsr25/)  
 🔗 [GitHub](https://github.com/ayushv-nitj)  
 📸 [Instagram](https://www.instagram.com/av_alanche._/)
