@@ -10,13 +10,13 @@ import { FaSearch } from "react-icons/fa";
 export default function Home() {
   const { data: session } = useSession();
   const [threads, setThreads] = useState([]);
+  const [unreadCounts, setUnreadCounts] = useState({});
   const [newDescription, setNewDescription] = useState("");
   const [newThreadTitle, setNewThreadTitle] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedThreadId, setSelectedThreadId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
 
   const projectId = "project1";
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -26,6 +26,10 @@ export default function Home() {
       axios.get(`${baseURL}/api/threads/${projectId}`)
         .then(res => setThreads(res.data))
         .catch(err => console.error("Error fetching threads:", err));
+
+      axios.get(`${baseURL}/api/messages/unread-counts/${projectId}?userId=${session.user.id}`)
+        .then(res => setUnreadCounts(res.data))
+        .catch(err => console.error("Error fetching unread counts:", err));
     }
   }, [session]);
 
@@ -86,7 +90,6 @@ export default function Home() {
 
   return (
     <div className={`${styles.mainContainer} ${darkMode ? styles.dark : ""}`}>
-      {/* Header */}
       <div className={styles.header}>
         <h1 className={styles.headerTitle}>Discussion Forum 🚀</h1>
         <div className={styles.headerButtons}>
@@ -102,22 +105,22 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Welcome User */}
       <div className={styles.userInfo}>
+
         <Image
-          src={session.user.image}
-          alt="User profile picture"
-          width={40}
-          height={40}
-          className={styles.userImage}
-        />
+  src={session.user.image || "/default-avatar.png"}
+  alt="User profile picture"
+  width={40}
+  height={40}
+  className={styles.userImage}
+/>
+
         <div>
           <p className={styles.welcomeText}>Welcome, {session.user.name}</p>
           <p className={styles.subText}>Start or join a project discussion below.</p>
         </div>
       </div>
 
-      {/* Create Thread */}
       <div className={styles.newThreadContainer}>
         <h3 className={styles.newThreadTitle}>Start a New Discussion</h3>
         <div className={styles.threadInputWrapper}>
@@ -139,60 +142,57 @@ export default function Home() {
         </div>
       </div>
 
+      <div className={styles.searchContainer}>
+        <FaSearch style={{ position: "absolute", marginLeft: "15px", marginTop: "12px", color: "#aaa" }} />
+        <input
+          type="text"
+          placeholder="Search threads by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.searchInput}
+          style={{ paddingLeft: "2.5rem" }}
+        />
+      </div>
 
-
-<div className={styles.searchContainer}>
-  <FaSearch style={{ position: "absolute", marginLeft: "15px", marginTop: "12px", color: "#aaa" }} />
-  <input
-    type="text"
-    placeholder="Search threads by title..."
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    className={styles.searchInput}
-    style={{ paddingLeft: "2.5rem" }} // icon spacing
-  />
-</div>
-
-
-      {/* Thread List */}
       <h2 className={styles.threadTitle}>Discussion Threads</h2>
       <div className={styles.threadGrid}>
         {threads
-  .filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()))
-  .map(t => (
-
-          <div key={t._id} className={styles.threadCard}>
-            <h4 className={styles.threadHeading}>
-              <Link href={`/thread/${t._id}`} className={styles.threadLink}>
-                {t.title}
-              </Link>
-            </h4>
-            {t.description ? (
-              <p className={styles.threadDescription}>{t.description}</p>
-            ) : (
-              <p className={styles.threadDescription} style={{ opacity: 0.5 }}>
-                No description provided.
+          .filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()))
+          .map(t => (
+            <div key={t._id} className={styles.threadCard}>
+              <h4 className={styles.threadHeading}>
+                <Link href={`/thread/${t._id}`} className={styles.threadLink}>
+                  {t.title}
+                  {unreadCounts[t._id] > 0 && (
+                    <span className={styles.unreadBadge}>{unreadCounts[t._id]}</span>
+                  )}
+                </Link>
+              </h4>
+              {t.description ? (
+                <p className={styles.threadDescription}>{t.description}</p>
+              ) : (
+                <p className={styles.threadDescription} style={{ opacity: 0.5 }}>
+                  No description provided.
+                </p>
+              )}
+              <p className={styles.threadAuthor}>
+                Created by: <span className={styles.threadName}>{t.createdBy.name}</span>
+                <span className={styles.threadTime}>
+                  • {moment(t.createdAt).fromNow()} ({moment(t.createdAt).format('LL')})
+                </span>
               </p>
-            )}
-            <p className={styles.threadAuthor}>
-              Created by: <span className={styles.threadName}>{t.createdBy.name}</span>
-              <span className={styles.threadTime}>
-                • {moment(t.createdAt).fromNow()} ({moment(t.createdAt).format('LL')})
-              </span>
-            </p>
-            {t.createdBy.email === session.user.email && (
-              <button
-                onClick={() => promptDelete(t._id)}
-                className={styles.deleteButton}
-              >
-                🗑 Delete
-              </button>
-            )}
-          </div>
-        ))}
+              {t.createdBy.email === session.user.email && (
+                <button
+                  onClick={() => promptDelete(t._id)}
+                  className={styles.deleteButton}
+                >
+                  🗑 Delete
+                </button>
+              )}
+            </div>
+          ))}
       </div>
 
-      {/* Footer */}
       <footer className={styles.footer}>
         Made with <span className={styles.heart}>♥</span> by AV |
         <a href="https://github.com/ayushv-nitj" target="_blank" rel="noopener noreferrer"> GitHub </a> |
@@ -200,7 +200,6 @@ export default function Home() {
         <a href="https://www.instagram.com/av_alanche._/" target="_blank" rel="noopener noreferrer"> Instagram </a>
       </footer>
 
-      {/* Delete Confirmation Modal */}
       {showConfirm && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>

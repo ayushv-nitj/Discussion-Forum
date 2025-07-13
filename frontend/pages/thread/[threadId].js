@@ -57,11 +57,17 @@ export default function ThreadPage() {
   };
 
   useEffect(() => {
-    if (threadId) {
+    if (threadId && session?.user?.id) {
       axios.get(`${baseURL}/api/messages/${threadId}`).then((res) => setMessages(res.data));
       axios.get(`${baseURL}/api/threads/${threadId}`).then((res) => setThreadTitle(res.data.title));
+
+      // ✅ Mark as read
+      axios.post(`${baseURL}/api/messages/mark-read`, {
+        threadId,
+        userId: session.user.id
+      }).catch(err => console.error("Failed to mark messages as read:", err));
     }
-  }, [threadId]);
+  }, [threadId, session]);
 
   useEffect(() => {
     const handleReceive = (msg) => {
@@ -103,7 +109,6 @@ export default function ThreadPage() {
 
   return (
     <div className={`${styles.threadContainer} ${darkMode ? styles.dark : ''}`}>
-      {/* Navbar */}
       <button onClick={() => setDarkMode(!darkMode)} className={styles.backButton}>
         {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
       </button>
@@ -115,7 +120,6 @@ export default function ThreadPage() {
         </button>
       </div>
 
-      {/* Chat Window */}
       <div className={styles.chatWindow}>
         {messages.map((msg, i) => (
           <div
@@ -158,7 +162,6 @@ export default function ThreadPage() {
         ))}
       </div>
 
-      {/* Message Input */}
       <div className={styles.inputContainer}>
         <button className={styles.emojiBtn} onClick={() => setShowPicker(!showPicker)}>
           😊
@@ -190,7 +193,6 @@ export default function ThreadPage() {
         </button>
       </div>
 
-      {/* Footer */}
       <footer className={styles.footer}>
         Made with <span className={styles.heart}>♥</span> by AV |
         <a href="https://github.com/ayushv-nitj" target="_blank" rel="noopener noreferrer"> GitHub </a> |
