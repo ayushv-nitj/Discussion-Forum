@@ -117,7 +117,7 @@ export default function Home() {
         />
         <div>
           <p className={styles.welcomeText}>Welcome, {session.user.name}</p>
-          <p className={styles.subText}>Start or join a project discussion below.</p>
+          <p className={styles.subText}>Start or join a project discussion below. It may take 30-50 seconds for threads to load after inactivity</p>
         </div>
       </div>
 

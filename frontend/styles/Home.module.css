@@ -407,10 +407,6 @@
   border-top: 2px solid #334155;
 }
 
-.footerStyled a {
-  color: #ffd369;
-}
-
 .dark .footerStyled a {
   color: #60a5fa;
 }
