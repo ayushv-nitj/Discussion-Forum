@@ -16,10 +16,14 @@ export default function Home() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedThreadId, setSelectedThreadId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  
 
 
   const projectId = "project1";
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  console.log("User session:", session);
+
 
   useEffect(() => {
     if (session) {
@@ -105,7 +109,7 @@ export default function Home() {
       {/* Welcome User */}
       <div className={styles.userInfo}>
         <Image
-          src={session.user.image}
+          src={session.user.image || "/public/default-profile.png"} 
           alt="User profile picture"
           width={40}
           height={40}
